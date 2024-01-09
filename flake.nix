@@ -16,13 +16,15 @@
       devShell = pkgs.mkShell {
         buildInputs = with pkgs; [
           (python3.withPackages(ps: with ps; [
-            ipython
-            jupyter
-            numpy
-            pandas
+            ipython jupyter
+            numpy scipy matplotlib  # pandas
+            keras tensorflow
           ]))
         ];
-        shellHook = "jupyter notebook";
+        shellHook = ''
+            jupyter notebook
+            exit
+        '';
       };
     }
   );
