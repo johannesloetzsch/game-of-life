@@ -93,15 +93,16 @@ def step(A, dt=0.02):
 ## Simulation
 
 def dtf(state_i):
-    return 1.0
+    return 0.65
 
-states = 2000
+states = 1000
 print("simulate {} states…".format(states))
 print("t_max={}".format(int(states*dtf(states))))
 np.random.seed(0)
-#A = np.random.rand(100, 100)
 #A = init(loafer)
-A = demo
+#A = demo
+A = np.random.rand(100, 100)
+#A = init(K3) + 0.5*np.random.rand(100, 100)
 A_states = []
 G_states = []
 N_states = []
@@ -142,7 +143,7 @@ def animate(frame, frames, states, dtf, fps, a, b):
     if __name__ == "__main__":
         plt.pause(1/fps)
 
-def plot(frames=100, fps=3, lin=0, dtf=dtf):
+def plot(frames=100, fps=2, lin=0, dtf=dtf):
     print("render {} frames with {} fps…".format(frames, fps))
     f = max(1, frames-1,1)
     b = lin * (states-1)/f
