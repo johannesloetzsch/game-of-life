@@ -11,7 +11,7 @@ import math
 ## Kernel
 
 def normalized_array(A):
-    return A
+    return np.array(A)
     #return np.array(A)/np.sum(A)
 
 K3 = normalized_array([
@@ -32,16 +32,53 @@ K11 = normalized_array([
 [0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0]])
 K=K3
 
+def init(M, x=100, y=100):
+    M = np.array(M)
+    y2 = (y-M.shape[1])/2
+    x2 = (x-M.shape[0])/2
+    return np.insert( np.insert(M, math.floor(y2)*[0]+math.ceil(y2)*[M.shape[1]], 0, axis=1),
+                                   math.floor(x2)*[0]+math.ceil(x2)*[M.shape[0]], 0, axis=0)
+
+glider = np.array([
+[0, 1, 0],
+[0, 0, 1],
+[1, 1, 1]])
+sidecar = [
+[0, 1, 0, 0, 0, 0, 0, 0],
+[1, 0, 0, 0, 0, 0, 1, 0],
+[1, 0, 0, 0, 0, 0, 1, 0],
+[1, 1, 1, 1, 1, 0, 1, 0],
+[0, 0, 0, 0, 0, 0, 0, 0],
+[0, 0, 0, 0, 1, 1, 0, 0],
+[0, 0, 1, 0, 0, 0, 0, 1],
+[0, 1, 0, 0, 0, 0, 0, 0],
+[0, 1, 0, 0, 0, 0, 0, 1],
+[0, 1, 1, 1, 1, 1, 1, 0]]
+loafer = [
+[0, 1, 1, 0, 0, 1, 0, 1, 1],
+[1, 0, 0, 1, 0, 0, 1, 1, 0],
+[0, 1, 0, 1, 0, 0, 0, 0, 0],
+[0, 0, 1, 0, 0, 0, 0, 0, 0],
+[0, 0, 0, 0, 0, 0, 0, 0, 1],
+[0, 0, 0, 0, 0, 0, 1, 1, 1],
+[0, 0, 0, 0, 0, 1, 0, 0, 0],
+[0, 0, 0, 0, 0, 0, 1, 0, 0],
+[0, 0, 0, 0, 0, 0, 0, 1, 1]]
+demo = np.concatenate([
+    np.concatenate([init(glider, 50, 5), init([[]], 50, 25), init(sidecar, 50, 15), init([[]], 50, 5), init(np.rot90(glider), 50, 50)], axis=1),
+    np.concatenate([init(loafer, 50, 25), init(loafer, 50, 50), init(glider.T, 50, 25)], axis=1)])
+
 ## Model
 
 convolve2d = scipy.signal.convolve2d
 gaussian = scipy.stats.norm.pdf
 sigmoid = scipy.special.expit
-clip = lambda A: np.clip(A, 0, 1)  # sigmoid
+#clip = lambda A: np.clip(A, 0, 1)
+clip = lambda A, m=20: sigmoid(m*(A-.5))
 
 def growth(N):
     u = 2.65
-    v = 4.5
+    v = 5.5
     w = 0.37
     G_unlimited = -1+2*v*gaussian((N-u)/w)
     return G_unlimited
@@ -56,13 +93,15 @@ def step(A, dt=0.02):
 ## Simulation
 
 def dtf(state_i):
-    return 0.0005
+    return 1.0
 
-states = 10000
+states = 2000
 print("simulate {} states…".format(states))
 print("t_max={}".format(int(states*dtf(states))))
 np.random.seed(0)
-A = np.random.rand(100, 100)
+#A = np.random.rand(100, 100)
+#A = init(loafer)
+A = demo
 A_states = []
 G_states = []
 N_states = []
@@ -73,6 +112,7 @@ for i in range(states):
     G_states.append(G)
     N_states.append(N)
     A = A_new
+    #A = np.ndarray.round(A_new)
 print("✔ simulation finished")
 
 ## Visualization
@@ -102,10 +142,11 @@ def animate(frame, frames, states, dtf, fps, a, b):
     if __name__ == "__main__":
         plt.pause(1/fps)
 
-def plot(frames=100, fps=5, lin=0, dtf=dtf):
+def plot(frames=100, fps=3, lin=0, dtf=dtf):
     print("render {} frames with {} fps…".format(frames, fps))
-    b = lin
-    a = ((states-1) - b*(frames-1)) / (frames-1)**2
+    f = max(1, frames-1,1)
+    b = lin * (states-1)/f
+    a = ((states-1) - b*f) / f**2
     print("lin={} => a={}, b={}".format(lin, a, b))
     plt.rcParams["animation.html"] = "html5"
     plt.ioff()
