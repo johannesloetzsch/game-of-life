@@ -1,3 +1,5 @@
 .ipynb_checkpoints/
 Untitled*.ipynb
 logs/
+.virtual_documents
+__pycache__

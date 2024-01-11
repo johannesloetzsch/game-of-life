@@ -16,14 +16,18 @@
       devShell = pkgs.mkShell {
         buildInputs = with pkgs; [
           (python3.withPackages(ps: with ps; [
-            ipython jupyter
-            numpy scipy matplotlib  # pandas
-            keras tensorflow
+            ipython jupyter spyder qtconsole
+            numpy matplotlib scikit-image
+            pandas plotly ipywidgets notebook
+            scipy keras tensorflow
           ]))
         ];
         shellHook = ''
-            jupyter notebook
-            exit
+            export PYTHONPATH="$PYTHON_PATH:`pwd`/src"
+            #jupyter notebook
+            #jupyter lab
+            #spyder
+            #exit
         '';
       };
     }
