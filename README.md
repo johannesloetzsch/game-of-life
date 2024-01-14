@@ -2,6 +2,10 @@
 
 [![](./examples/conway.gif)](./examples/conway.mp4)
 
+## Organism growth
+
+[![](./organism_growth.gif)](./organism_growth.mp4)
+
 ## „States of matter“ via discrete time
 Each simulation with same parameters except dt:
 

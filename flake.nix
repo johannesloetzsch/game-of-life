@@ -20,6 +20,7 @@
             numpy matplotlib scikit-image
             pandas plotly ipywidgets notebook
             scipy keras tensorflow
+            opencv4
           ]))
         ];
         shellHook = ''
