@@ -81,15 +81,15 @@ clip = lambda A: np.clip(A, 0, 1)
 #clip = lambda A, m=20: sigmoid(m*(A-.5))
 
 def growth(N):
-    u = 0.209
-    v = 2
-    w = 0.05
+    u = 0.3
+    v = 1.9
+    w = 0.15
     G_unlimited = -1+2*v*gaussian((N-u)/w)
     #return G_unlimited
     return np.clip(G_unlimited, -1, 1)
     #return -1*2*sigmoid(30*G_unlimited)
 
-def step(A, dt=0.02, rand=0):
+def step(A, dt=0.02, rand=0.3):
     N = convolve2d(A, K, mode='same', boundary='wrap')
     #N = convolve2d(A, K, mode='same', boundary='fill', fillvalue=0)
     G = growth(N)
@@ -99,15 +99,14 @@ def step(A, dt=0.02, rand=0):
 ## Simulation
 
 def dtf(state_i):
-    return .5
+    return .1
 
-states = 100
+states = 5000
 print("simulate {} states…".format(states))
 print("t_max={}".format(int(states*dtf(states))))
 np.random.seed(0)
 #A = demo
-A = np.random.rand(600, 800)
-#A = init(K3) + 0.5*np.random.rand(100, 100)
+A = 0.5*np.random.rand(200, 200)
 A_states = []
 G_states = []
 N_states = []
@@ -147,7 +146,7 @@ def animate(frame, frames, states, dtf, fps, a, b, axs):
     if __name__ == "__main__":
         plt.pause(1/fps)
 
-def plot(frames=100, fps=2, lin=1, dtf=dtf):
+def plot(frames=50, fps=2, lin=0, dtf=dtf):
     fig, axs = plt.subplots(1, 3)
     print("render {} frames with {} fps…".format(frames, fps))
     f = max(1, frames-1)

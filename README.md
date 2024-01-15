@@ -4,7 +4,7 @@
 
 ## Organism growth
 
-[![](./organism_growth.gif)](./organism_growth.mp4)
+[![](./examples/organism_growth.gif)](./examples/organism_growth.mp4)
 
 ## „States of matter“ via discrete time
 Each simulation with same parameters except dt:
@@ -30,3 +30,7 @@ Each simulation with same parameters except dt:
 ## Emerging structures
 
 [![](./examples/emerging_universe.gif)](./examples/emerging_universe.mp4)
+
+## Self structuring
+
+[![](./examples/structuring.gif)](./examples/structuring.mp4)
