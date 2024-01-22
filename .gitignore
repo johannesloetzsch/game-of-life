@@ -3,4 +3,5 @@ Untitled*.ipynb
 logs/
 .virtual_documents
 __pycache__
-src/temp-plot.html
+temp-plot.html
+*~
