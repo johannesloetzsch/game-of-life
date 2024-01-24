@@ -7,7 +7,7 @@ import time
 from visualization.plotly import imshow
 
 def dtf(state_i):
-    return .1
+    return 1.0
 
 def record_steps_quadratic(lin, frames, steps):
     f = max(1, frames-1)
@@ -15,31 +15,35 @@ def record_steps_quadratic(lin, frames, steps):
     a = ((steps-1) - b*f) / f**2
     return [int(a*i**2 + b*i) for i in range(frames)]
 
-def callback(A, N, G, step, time_start, record_steps, show_img=True):
+def callback(N, T, A, step, time_start, record_steps, show_img=True):
     if step in record_steps:
-        img = G
-        #img = np.concatenate([A, N, G], axis=1)
+        #img = G
+        img = np.concatenate([N, T, A], axis=1)
         if show_img:
-            imshow(G)
-            #imshow(img)
+            #imshow(G)
+            imshow(img)
             #imshow(np.array([A, N, G]), animation_frame=0)
         time_simulation = time.perf_counter() - time_start
         print("step: {:3d}, fps: {:3.1f}".format(step, step/time_simulation))
         return img
 
-def simulate(A=None, steps=1000, callback=callback):
+def simulate(A=None, steps=10, callback=callback, p=[-0.32, 2.82, 0.14]):
     if A is None:
         np.random.seed(0)
-        A = np.random.rand(100, 100)
+        #A = np.random.rand(100, 100)*2-1
+        #from figures.conway import demo
+        #A = demo*2-1
+        from figures.conway import init, glider
+        A = init(glider, 10, 10)*2-1
 
     frames = []
-    record_steps = record_steps_quadratic(lin=0, frames=10, steps=steps)
+    record_steps = record_steps_quadratic(lin=1, frames=10, steps=steps)
     time_start = time.perf_counter()
 
     for i in range(steps):
         dt = dtf(i)
-        (A, N, G) = step(A, dt)
-        img = callback(A, N, G, i+1, time_start, record_steps)
+        (N, T, A) = step(A, dt, p)
+        img = callback(N, T, A, i+1, time_start, record_steps)
         if not img is None:
             frames.append(img)
 

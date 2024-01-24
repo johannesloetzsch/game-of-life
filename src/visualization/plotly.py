@@ -3,7 +3,7 @@
 import plotly.express as px
 from plotly.offline import plot
 
-colors = [["red", "yellow", "lightblue", "lightgreen", "green"], "Aggrnyl_r", "algae", "Emrld", "Viridis", "Rainbow_r"]
+colors = [["black", "brown", "blue", "green", "lightgreen"], "Aggrnyl_r", "algae", "Emrld", "Viridis", "Rainbow_r"]
 
 def imshow(X, **kwargs):
     fig = px.imshow(X, color_continuous_scale=colors[0], zmin=-1, zmax=1, **kwargs)
