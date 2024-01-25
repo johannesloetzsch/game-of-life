@@ -27,7 +27,7 @@ def callback(N, T, A, step, time_start, record_steps, show_img=True):
         print("step: {:3d}, fps: {:3.1f}".format(step, step/time_simulation))
         return img
 
-def simulate(A=None, steps=10, callback=callback, p=[-0.32, 2.82, 0.14]):
+def simulate(A=None, steps=10, callback=callback, p=[-0.32, 2.82, 0.14], overshoot=0.95, round=True, dt=None):
     if A is None:
         np.random.seed(0)
         #A = np.random.rand(100, 100)*2-1
@@ -41,8 +41,9 @@ def simulate(A=None, steps=10, callback=callback, p=[-0.32, 2.82, 0.14]):
     time_start = time.perf_counter()
 
     for i in range(steps):
-        dt = dtf(i)
-        (N, T, A) = step(A, dt, p)
+        if dt is None:
+            dt = dtf(i)
+        (N, T, A) = step(A, p, overshoot=overshoot, round=round, dt=dt)
         img = callback(N, T, A, i+1, time_start, record_steps)
         if not img is None:
             frames.append(img)

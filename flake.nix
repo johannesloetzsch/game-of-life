@@ -17,9 +17,10 @@
         buildInputs = with pkgs; [
           (python3.withPackages(ps: with ps; [
             ipython jupyter spyder qtconsole
-            numpy matplotlib scikit-image
+            numpy matplotlib
             pandas plotly ipywidgets notebook
             scipy keras tensorflow
+            scikit-image urllib3
             opencv4
           ]))
         ];
