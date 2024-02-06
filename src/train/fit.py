@@ -13,6 +13,7 @@ def growth(N, u, v, w):
 def target(A, N, p, overshoot=0.5):
     [u, v, w] = p
     target_raw = A + (1+overshoot)*growth(N, u, v, w)
+    #target_raw = 2*growth(N, u, v, w)
     return np.clip(target_raw, -1, 1)
 
 def plot_training_data(X, Y):

@@ -32,6 +32,14 @@
             #exit
         '';
       };
+      devShells.${system}.doc = pkgs.mkShell {
+        nativeBuildInputs = with pkgs; [ mdbook mdbook-mermaid ];
+        shellHook = ''
+          cd doc
+          mdbook-mermaid install
+          mdbook serve
+        '';
+      };
     }
   );
 }
