@@ -20,7 +20,7 @@
             numpy matplotlib
             pandas plotly ipywidgets notebook
             scipy keras tensorflow
-            scikit-image urllib3
+            scikit-image urllib3 scikit-learn
             opencv4
           ]))
         ];
