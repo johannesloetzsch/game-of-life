@@ -35,6 +35,8 @@ K11_discrete = normalized_array(gaussian([[math.sqrt((X-5)**2+(Y-5)**2)-4 for X 
                                 #gaussian([[math.sqrt((X-5)**2+(Y-5)**2)-1 for X in range(11)] for Y in range(11)])
                                )
 
+Conway = [Moore3]
+
 R30 = [normalized_array([
 [0, 0, 0],
 [0, 0, 0],
