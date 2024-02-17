@@ -22,7 +22,7 @@
             scipy keras tensorflow
             scikit-image urllib3 scikit-learn
             opencv4
-            sympy
+            sympy clifford
           ]))
         ];
         shellHook = ''
